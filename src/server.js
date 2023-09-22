@@ -5,11 +5,11 @@ const PORT = 4000;
 const app = express();
 
 const handleHome = (req, res) => {
-  return res.end('I still love you.');
+  return res.end('<h1>I still love you.</h1>');
 };
 
 const handleLogin = (req, res) => {
-  return res.send('Login here.');
+  return res.send({ some: 'json' });
 };
 app.get('/', handleHome);
 app.get('/login', handleLogin);
