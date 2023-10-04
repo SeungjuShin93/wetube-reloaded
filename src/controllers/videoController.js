@@ -39,4 +39,9 @@ export const getEdit = (req, res) => {
   const video = videos[id - 1];
   return res.render('edit', { pageTitle: `Editing: ${video.title}`, video });
 };
-export const postEdit = (req, res) => {};
+export const postEdit = (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  videos[id - 1].title = title; // 진짜 DB가 아니라서 이렇게 하는 거, 안중요하니 이 코드는 넘어가세요
+  return res.redirect(`/videos/${id}`);
+};
