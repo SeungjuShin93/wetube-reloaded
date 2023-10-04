@@ -45,3 +45,10 @@ export const postEdit = (req, res) => {
   videos[id - 1].title = title; // 진짜 DB가 아니라서 이렇게 하는 거, 안중요하니 이 코드는 넘어가세요
   return res.redirect(`/videos/${id}`);
 };
+export const getUpload = (req, res) => {
+  return res.render('upload', { pageTitle: 'Upload Video' });
+};
+export const postUpload = (req, res) => {
+  // here we will add a video to the videos array.
+  return res.redirect('/');
+};
