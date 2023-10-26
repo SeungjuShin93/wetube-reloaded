@@ -1,9 +1,15 @@
 import Video from '../models/Video';
 
 export const home = (req, res) => {
-  Video.find({}, (error, vidoes) => {});
-  return res.render('home', { pageTitle: 'Home',  });
-};
+  Video.find({}).then((videos) => {
+  console.log("videos", videos);
+  console.log("errors", error);
+  return res.render("home", {pageTitle: "Home", videos:[]});
+  }).catch((error) => {
+  console.log("errors", error);
+  });
+  console.log('hello'); // hello가 위에 코드보다 먼저 출력 됨
+  }
 export const watch = (req, res) => {
   const { id } = req.params;
   return res.render('watch', { pageTitle: `watching`,  });
