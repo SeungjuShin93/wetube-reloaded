@@ -9,12 +9,8 @@ Video.find({}, (error, videos) => {
 });
 */
 export const home = async (req, res) => {
- try{
   const videos = await Video.find({});
   return res.render("home", {pageTitle: "Home", videos});
- } catch{
-  return res.render("server-error", {error});
- }
   };
 export const watch = (req, res) => {
   const { id } = req.params;
