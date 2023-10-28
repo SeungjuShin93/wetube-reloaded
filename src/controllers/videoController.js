@@ -10,6 +10,7 @@ Video.find({}, (error, videos) => {
 */
 export const home = async (req, res) => {
   const videos = await Video.find({});
+  console.log(videos);
   return res.render("home", {pageTitle: "Home", videos});
   };
 export const watch = (req, res) => {
@@ -28,24 +29,42 @@ export const postEdit = (req, res) => {
 export const getUpload = (req, res) => {
   return res.render('upload', { pageTitle: 'Upload Video' });
 };
-export const postUpload = (req, res) => {
+export const postUpload = async (req, res) => {
   const { title, description, hashtags } = req.body;
   // console.log(title, description, hashtags);
-  const video = new Video({
-    title:title, // title, 과 같음
+  await Video.create({
+    title, // title, 과 같음
     description,
     createdAt: Date.now(),
     hashtags: hashtags.split(',').map(word => {
-      if(word[0].trim() !=="#"){
-        return word = `#${word}`
+      const returnWord = word.trim();
+      if(returnWord[0] === "#"){
+        return returnWord;
       }
-      return word;
+      return `#${returnWord}`;
     }),
     meta: {
       views: 0,
       rating: 0,
     }
   })
-  console.log(video);
+  // 아래 코드는 위에 코드와 같음
+  // const video = new Video({
+  //   title, // title, 과 같음
+  //   description,
+  //   createdAt: Date.now(),
+  //   hashtags: hashtags.split(',').map(word => {
+  //     const returnWord = word.trim();
+  //     if(returnWord[0] === "#"){
+  //       return returnWord;
+  //     }
+  //     return `#${returnWord}`;
+  //   }),
+  //   meta: {
+  //     views: 0,
+  //     rating: 0,
+  //   }
+  // })
+  // const dbVideo = await video.save();
   return res.redirect('/');
 };
