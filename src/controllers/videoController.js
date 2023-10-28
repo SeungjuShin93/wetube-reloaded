@@ -11,15 +11,15 @@ Video.find({}, (error, videos) => {
 export const home = async (req, res) => {
   const videos = await Video.find({});
   console.log(videos);
-  return res.render("home", {pageTitle: "Home", videos});
-  };
+  return res.render('home', { pageTitle: 'Home', videos });
+};
 export const watch = (req, res) => {
   const { id } = req.params;
-  return res.render('watch', { pageTitle: `watching`,  });
+  return res.render('watch', { pageTitle: `watching` });
 };
 export const getEdit = (req, res) => {
   const { id } = req.params;
-  return res.render('edit', { pageTitle: `Editing`,  });
+  return res.render('edit', { pageTitle: `Editing` });
 };
 export const postEdit = (req, res) => {
   const { id } = req.params;
@@ -31,37 +31,20 @@ export const getUpload = (req, res) => {
 };
 export const postUpload = async (req, res) => {
   const { title, description, hashtags } = req.body;
-  // console.log(title, description, hashtags);
-  await Video.create({
-    title, // title, 과 같음
-    description,
-    createdAt: Date.now(),
-    hashtags: hashtags.split(',').map(word => {
-      const returnWord = word.trim();
-      return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
-    }),
-    meta: {
-      views: 0,
-      rating: 0,
-    }
-  })
-  // 아래 코드는 위에 코드와 같음
-  // const video = new Video({
-  //   title, // title, 과 같음
-  //   description,
-  //   createdAt: Date.now(),
-  //   hashtags: hashtags.split(',').map(word => {
-  //     const returnWord = word.trim();
-  //     if(returnWord[0] === "#"){
-  //       return returnWord;
-  //     }
-  //     return `#${returnWord}`;
-  //   }),
-  //   meta: {
-  //     views: 0,
-  //     rating: 0,
-  //   }
-  // })
-  // const dbVideo = await video.save();
-  return res.redirect('/');
+  try {
+    await Video.create({
+      title,
+      description,
+      hashtags: hashtags.split(',').map((word) => {
+        const returnWord = word.trim();
+        return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
+      }),
+    });
+    return res.redirect('/');
+  } catch (error) {
+    return res.render('upload', {
+      pageTitle: 'Upload Video',
+      errorMessage: error._message,
+    });
+  }
 };
