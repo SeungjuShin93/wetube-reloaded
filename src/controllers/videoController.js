@@ -38,10 +38,7 @@ export const postUpload = async (req, res) => {
     createdAt: Date.now(),
     hashtags: hashtags.split(',').map(word => {
       const returnWord = word.trim();
-      if(returnWord[0] === "#"){
-        return returnWord;
-      }
-      return `#${returnWord}`;
+      return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
     }),
     meta: {
       views: 0,
