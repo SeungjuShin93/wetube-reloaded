@@ -32,17 +32,22 @@ export const getEdit = async (req, res) => {
 export const postEdit = async (req, res) => {
   const { id } = req.params;
   const { title, description, hashtags } = req.body;
-  const video = await Video.findById(id);
+  const video = await Video.exists({ _id: id });
+  // 위에 findById 대신에 exists 쓰는건, 굳이 video obj가 필요 없고
+  // 단지 true인지 false인지만 알면 되기 때문
+  // 위에 getEdit에서는 video라는 obj를 pageTitle에 전달해야 하기 때문에
+  // findById를 써야 함
   if (!video) {
     return res.render('404', { pageTitle: 'Video not found' });
   }
-  video.title = title;
-  video.description = description;
-  video.hashtags = hashtags.split(',').map((word) => {
-    const returnWord = word.trim();
-    return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
+  await Video.findByIdAndUpdate(id, {
+    title,
+    description,
+    hashtags: hashtags.split(',').map((word) => {
+      const returnWord = word.trim();
+      return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
+    }),
   });
-  await video.save();
   return res.redirect(`/videos/${id}`);
 };
 export const getUpload = (req, res) => {
