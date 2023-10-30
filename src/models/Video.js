@@ -17,9 +17,18 @@ const videoSchema = new mongoose.Schema({
   },
 });
 
-// pre는 미들웨어라서 Video 모델이 생성되기 전에 있어야 함
-videoSchema.pre('save', async function () {
-  this.hashtags = this.hashtags[0].split(',').map((word) => {
+// export const formatHashtags = (hashtags) => {
+//   return hashtags.split(',').map((word) => {
+//     const returnWord = word.trim();
+//     return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
+//   });
+// };
+// 위와 같이 만들어서 videoController에 import해서 사용할 수도 있지만
+// 아래처럼 static 함수로 커스터마이징해서
+// Video.formatHashtags(hashtags), 이런식으로도 사용 가능
+
+videoSchema.static('formatHashtags', function (hashtags) {
+  return hashtags.split(',').map((word) => {
     const returnWord = word.trim();
     return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
   });

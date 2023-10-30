@@ -1,13 +1,6 @@
 import Video from '../models/Video';
+// import { formatHashtags } from '../models/Video';
 
-/*
-Video.find({}, (error, videos) => {
-  if(error){
-    return res.render("server-error");
-  }
-    return res.render("home", {pageTitle: "Home", videos:[]});
-});
-*/
 export const home = async (req, res) => {
   const videos = await Video.find({});
   console.log(videos);
@@ -43,10 +36,8 @@ export const postEdit = async (req, res) => {
   await Video.findByIdAndUpdate(id, {
     title,
     description,
-    hashtags: hashtags.split(',').map((word) => {
-      const returnWord = word.trim();
-      return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
-    }),
+    // hashtags: formatHashtags(hashtags),
+    hashtags: Video.formatHashtags(hashtags),
   });
   return res.redirect(`/videos/${id}`);
 };
@@ -59,7 +50,8 @@ export const postUpload = async (req, res) => {
     await Video.create({
       title,
       description,
-      hashtags,
+      // hashtags: formatHashtags(hashtags),
+      hashtags: Video.formatHashtags(hashtags),
     });
     return res.redirect('/');
   } catch (error) {
