@@ -17,6 +17,14 @@ const videoSchema = new mongoose.Schema({
   },
 });
 
+// pre는 미들웨어라서 Video 모델이 생성되기 전에 있어야 함
+videoSchema.pre('save', async function () {
+  this.hashtags = this.hashtags[0].split(',').map((word) => {
+    const returnWord = word.trim();
+    return returnWord.startsWith('#') ? returnWord : `#${returnWord}`;
+  });
+});
+
 const Video = mongoose.model('Video', videoSchema);
 
 export default Video;
