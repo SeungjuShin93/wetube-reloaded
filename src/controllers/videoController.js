@@ -2,7 +2,7 @@ import Video from '../models/Video';
 // import { formatHashtags } from '../models/Video';
 
 export const home = async (req, res) => {
-  const videos = await Video.find({});
+  const videos = await Video.find({}).sort({ createdAt: '-1' });
   console.log(videos);
   return res.render('home', { pageTitle: 'Home', videos });
 };
@@ -67,4 +67,12 @@ export const deleteVideo = async (req, res) => {
   await Video.findByIdAndDelete(id);
   // delete video
   return res.redirect('/');
+};
+
+export const search = (req, res) => {
+  const { keyword } = req.query;
+  if (keyword) {
+    // search
+  }
+  return res.render('search', { pageTitle: 'Search' });
 };
