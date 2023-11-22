@@ -14,6 +14,8 @@ app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
 app.use(logger);
 app.use(express.urlencoded({ extended: true }));
+console.log(process.env.COOKIE_SECRET);
+
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
