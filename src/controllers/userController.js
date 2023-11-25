@@ -1,3 +1,4 @@
+import { response } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
 // import fetch from 'node-fetch';
@@ -83,6 +84,36 @@ export const finishGithubLogin = async (req, res) => {
   };
   const params = new URLSearchParams(config).toString();
   const finalUrl = `${baseUrl}?${params}`;
+
+  // await를 두번쓰는게 아니라, then을 활용한다면
+  /*
+  fetch(finalUrl, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      if ('access_token' in json) {
+        const { access_token } = tokenRequest;
+        const apiUrl = 'https://api.github.com';
+        fetch(`${apiUrl}/user`, {
+          headers: {
+            Authorization: `token ${access_token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            fetch(`${apiUrl}/user/emails`, {
+              headers: {
+                Authorization: `token ${access_token}`,
+              },
+            });
+          });
+      }
+    });
+  */
   const tokenRequest = await (
     await fetch(finalUrl, {
       method: 'POST',
@@ -93,14 +124,29 @@ export const finishGithubLogin = async (req, res) => {
   ).json();
   if ('access_token' in tokenRequest) {
     const { access_token } = tokenRequest;
-    const userRequest = await (
-      await fetch('https://api.github.com/user', {
+    const apiUrl = 'https://api.github.com';
+    const userData = await (
+      await fetch(`${apiUrl}/user`, {
         headers: {
           Authorization: `token ${access_token}`,
         },
       })
     ).json();
-    console.log(userRequest);
+    console.log(userData);
+    const emailData = await (
+      await fetch(`${apiUrl}/user/emails`, {
+        headers: {
+          Authorization: `token ${access_token}`,
+        },
+      })
+    ).json();
+    const email = emailData.find(
+      (email) => email.primary === true && email.verified === true
+    );
+    if (!email) {
+      return res.redirect('login');
+    }
+    // 이제 여기 코드는 email이 있다면 무얼 해줄지
   } else {
     return res.redirect('login');
   }
