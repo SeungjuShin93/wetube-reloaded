@@ -178,10 +178,36 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, email: sessionEmail, username: sessionUsername },
     },
     body: { name, email, username, location },
   } = req;
+
+  // 중복된 이메일이나 유저네임이 있는지 확인해서
+  // 만약 중복이 되어 있다면 업데이트를 할 수 없도록
+  // 아래 변수 선언은 위에서 구조 분해 할당으로 해결 가능
+  // const sessionUsername = req.session.user.username;
+  // const sessionEmail = req.session.user.email;
+  if (sessionUsername !== username) {
+    // 이때 기존의 username이랑 겹치는게 있는지 확인해줘야 한다
+    const exists = await User.exists({ username });
+    if (exists) {
+      return res.status(400).render('edit-profile', {
+        pageTitle: 'Edit Profile',
+        errorMessage: 'This username is already taken.',
+      });
+    }
+  }
+  if (sessionEmail !== email) {
+    const exists = await User.exists({ email });
+    if (exists) {
+      return res.status(400).render('edit-profile', {
+        pageTitle: 'Edit Profile',
+        errorMessage: 'This email is already taken.',
+      });
+    }
+  }
+
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
