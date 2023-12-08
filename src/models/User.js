@@ -12,9 +12,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function () {
-  console.log('Users password:', this.password);
   this.password = await bcrypt.hash(this.password, 5);
-  console.log('Hashed password:', this.password);
   // 여기서 this의 의미는 create 되는 User를 가리킴
 });
 

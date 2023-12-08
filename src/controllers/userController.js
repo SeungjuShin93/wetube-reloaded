@@ -228,7 +228,42 @@ export const getChangePassword = (req, res) => {
   }
   return res.render('users/change-password', { pageTitle: 'Change Password' });
 };
-export const postChangePassword = (req, res) => {
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { oldPassword, newPassword, newPasswordConfirmation },
+  } = req;
+  const pageTitle = 'Change Password';
+  const user = await User.findById(_id);
+  const ok = await bcrypt.compare(oldPassword, user.password);
+  if (!ok) {
+    return res.status(400).render('users/change-password', {
+      pageTitle,
+      errorMessage: 'The current password is incorrect',
+    });
+  }
+
+  if (oldPassword === newPassword) {
+    return res.status(400).render('users/change-password', {
+      pageTitle,
+      errorMessage: 'The old password equals new password',
+    });
+  }
+
+  if (newPassword !== newPasswordConfirmation) {
+    return res.status(400).render('users/change-password', {
+      pageTitle,
+      errorMessage: 'the password does not match the confirmation',
+    });
+  }
+  console.log('Old Password ', user.password);
+  user.password = newPassword;
+  console.log('New unhashed pw ', user.password); // 해쉬 작동 전 확인용
+  await user.save();
+  console.log('new pw ', user.password); // 해쉬 작동 잘하나 확인용
   // send notification
+  return res.redirect('/users/logout');
 };
 export const see = (req, res) => res.send('See User');
