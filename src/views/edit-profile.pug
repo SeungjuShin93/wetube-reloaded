@@ -3,7 +3,9 @@ extends base
 block content
   if errorMessage 
     span=errorMessage
-  form(method="POST")
+  form(method="POST", enctype="multipart/form-data")
+    label(for="avatar") Avatar
+    input(type="file", id="avatar", name="avatar", accept="image/*")
     input(value=loggedInUser.name, placeholder="Name", name="name", type="text", required)
     input(value=loggedInUser.email, placeholder="Email", name="email", type="email", required)
     input(value=loggedInUser.username, placeholder="Username", name="username", type="text", required)

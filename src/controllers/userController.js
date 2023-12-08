@@ -181,8 +181,9 @@ export const postEdit = async (req, res) => {
       user: { _id, email: sessionEmail, username: sessionUsername },
     },
     body: { name, email, username, location },
+    file,
   } = req;
-
+  console.log(file);
   // 중복된 이메일이나 유저네임이 있는지 확인해서
   // 만약 중복이 되어 있다면 업데이트를 할 수 없도록
   // 아래 변수 선언은 위에서 구조 분해 할당으로 해결 가능
