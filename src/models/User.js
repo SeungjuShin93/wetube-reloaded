@@ -16,6 +16,6 @@ userSchema.pre('save', async function () {
   // 여기서 this의 의미는 create 되는 User를 가리킴
 });
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;
