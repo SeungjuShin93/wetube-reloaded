@@ -113,7 +113,7 @@ export const search = async (req, res) => {
         // $regex: new RegExp(`^${keyword}`, 'i'), // keyword로 시작하는 단어만 검색
         $regex: new RegExp(keyword, 'i'),
       },
-    });
+    }).populate('owner');
   }
   return res.render('search', { pageTitle: 'Search', videos });
 };
