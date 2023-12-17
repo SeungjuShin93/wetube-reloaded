@@ -108,6 +108,29 @@ const handleMouseLeave = () => {
   controlsTimeout = setTimeout(hideControls, 3000);
 };
 
+const handleKeyboard = (event) => {
+  const keyBoardInput = event.key;
+  if (keyBoardInput === ' ') {
+    return handlePlayClick();
+  }
+  if (
+    keyBoardInput === 'Enter' ||
+    keyBoardInput === 'f' ||
+    keyBoardInput === 'F'
+  ) {
+    return handleFullScreen();
+  }
+  if (keyBoardInput === 'm' || keyBoardInput === 'M') {
+    return handleMute();
+  }
+  if (keyBoardInput === 'ArrowRight') {
+    return (video.currentTime += 5);
+  }
+  if (keyBoardInput === 'ArrowLeft') {
+    return (video.currentTime -= 5);
+  }
+};
+
 playBtn.addEventListener('click', handlePlayClick);
 muteBtn.addEventListener('click', handleMute);
 volumeRange.addEventListener('input', handleInputVolumeRange);
@@ -118,3 +141,4 @@ timeline.addEventListener('input', handleTimelineChange);
 fullScreenBtn.addEventListener('click', handleFullScreen);
 video.addEventListener('mousemove', handleMouseMove);
 video.addEventListener('mouseleave', handleMouseLeave);
+window.addEventListener('keydown', handleKeyboard);
