@@ -146,7 +146,7 @@ const handleKeyboard = (event) => {
 
 const handleEnded = () => {
   const { id } = videoContainer.dataset;
-  fetch(`/api/videos/id/view`, {
+  fetch(`/api/videos/${id}/view`, {
     method: 'POST',
   });
 };
