@@ -31,6 +31,11 @@ const handlePlayClick = (e) => {
     ? 'fa-solid fa-play'
     : 'fa-solid fa-pause';
 };
+
+const handleVideoClickPlay = () => {
+  handlePlayClick();
+};
+
 const handleMute = (e) => {
   if (video.muted) {
     video.muted = false;
@@ -116,6 +121,7 @@ const handleMouseLeave = () => {
 };
 
 const handleKeyboard = (event) => {
+  event.preventDefault();
   const keyBoardInput = event.key;
   if (keyBoardInput === ' ') {
     return handlePlayClick();
@@ -144,6 +150,7 @@ volumeRange.addEventListener('input', handleInputVolumeRange);
 volumeRange.addEventListener('change', handleChangeVolumeRange);
 video.addEventListener('loadedmetadata', handleLoadedMetadata);
 video.addEventListener('timeupdate', handleTimeUpdate);
+video.addEventListener('click', handleVideoClickPlay);
 timeline.addEventListener('input', handleTimelineChange);
 fullScreenBtn.addEventListener('click', handleFullScreen);
 videoContainer.addEventListener('mousemove', handleMouseMove);
