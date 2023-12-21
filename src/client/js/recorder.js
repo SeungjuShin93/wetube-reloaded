@@ -1,3 +1,5 @@
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { fetchFile } from '@ffmpeg/util';
 const startBtn = document.getElementById('startBtn');
 const video = document.getElementById('preview');
 
@@ -5,7 +7,16 @@ let stream;
 let recorder;
 let videoFile;
 
-const handleDownload = () => {
+const handleDownload = async () => {
+  const ffmpeg = new FFmpeg();
+  await ffmpeg.load();
+
+  ffmpeg.on('log', ({ type, message }) => console.log(message));
+
+  ffmpeg.writeFile('recording.webm', await fetchFile(videoFile));
+
+  await ffmpeg.exec(['-i', 'recording.webm', '-r', '60', 'output.mp4']);
+
   const a = document.createElement('a');
   a.href = videoFile;
   a.download = 'MyRecording.webm';
@@ -27,6 +38,7 @@ const handleStart = () => {
   recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
   recorder.ondataavailable = (event) => {
     videoFile = URL.createObjectURL(event.data);
+    console.log(event.data);
     video.srcObject = null;
     video.src = videoFile;
     video.loop = true;
@@ -47,3 +59,5 @@ const init = async () => {
 init();
 
 startBtn.addEventListener('click', handleStart);
+
+///
