@@ -47,6 +47,15 @@ const handleDownload = async () => {
   thumbA.download = 'MyThumbnail.jpg';
   document.body.appendChild(thumbA);
   thumbA.click();
+
+  // 속도 개선을 위한 코드, 지금 버전에서 작동 안함
+  // ffmpeg.FS('unlink', 'recording.webm');
+  // ffmpeg.FS('unlink', 'output.mp4');
+  // ffmpeg.FS('unlink', 'thumbnail.jpg');
+
+  // URL.revokeObjectURL(mp4Url);
+  // URL.revokeObjectURL(thumbUrl);
+  // URL.revokeObjectURL(videoFile);
 };
 
 const handleStop = () => {
