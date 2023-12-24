@@ -54,6 +54,7 @@ export const postEdit = async (req, res) => {
     req.flash('error', 'You are not the owner of the video');
     return res.status(403).redirect('/');
   }
+  req.flash('success', 'Changes saved');
   return res.redirect(`/videos/${id}`);
 };
 
