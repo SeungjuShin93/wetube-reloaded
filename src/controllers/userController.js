@@ -169,6 +169,7 @@ export const finishGithubLogin = async (req, res) => {
 
 export const logout = (req, res) => {
   req.session.destroy();
+  req.flash('info', 'Bye Bye');
   return res.redirect('/');
 };
 
@@ -220,6 +221,7 @@ export const postEdit = async (req, res) => {
 
 export const getChangePassword = (req, res) => {
   if (req.session.user.socialOnly === true) {
+    req.flash('error', "Can't change password");
     return res.redirect('/');
   }
   return res.render('users/change-password', { pageTitle: 'Change Password' });
@@ -254,12 +256,9 @@ export const postChangePassword = async (req, res) => {
       errorMessage: 'the password does not match the confirmation',
     });
   }
-  console.log('Old Password ', user.password);
   user.password = newPassword;
-  console.log('New unhashed pw ', user.password); // 해쉬 작동 전 확인용
   await user.save();
-  console.log('new pw ', user.password); // 해쉬 작동 잘하나 확인용
-  // send notification
+  req.flash('info', 'Password updated');
   return res.redirect('/users/logout');
 };
 export const see = async (req, res) => {
