@@ -121,7 +121,6 @@ const handleMouseLeave = () => {
 };
 const handleKeyboard = (event) => {
   const keyBoardInput = event.key;
-  console.log(event.target.id);
   if (event.target === textarea) {
     return;
   }
