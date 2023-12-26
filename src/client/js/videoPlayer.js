@@ -11,7 +11,7 @@ const fullScreenBtn = document.getElementById('fullScreen');
 const fullScreenIcon = fullScreenBtn.querySelector('i');
 const videoContainer = document.getElementById('videoContainer');
 const videoControls = document.getElementById('videoControls');
-
+const textarea = document.getElementById('comment');
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
@@ -119,9 +119,12 @@ const handleMouseMove = () => {
 const handleMouseLeave = () => {
   controlsTimeout = setTimeout(hideControls, 3000);
 };
-
 const handleKeyboard = (event) => {
   const keyBoardInput = event.key;
+  console.log(event.target.id);
+  if (event.target === textarea) {
+    return;
+  }
   if (keyBoardInput === ' ') {
     event.preventDefault();
     return handlePlayClick();
