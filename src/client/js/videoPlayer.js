@@ -121,9 +121,9 @@ const handleMouseLeave = () => {
 };
 
 const handleKeyboard = (event) => {
-  event.preventDefault();
   const keyBoardInput = event.key;
   if (keyBoardInput === ' ') {
+    event.preventDefault();
     return handlePlayClick();
   }
   if (
