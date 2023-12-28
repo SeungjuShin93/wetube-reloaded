@@ -27,9 +27,30 @@
   margin-top: 20px;
   .video__comment {
     padding: 10px;
-    border-radius: 9999px;
+    border-radius: 50px;
     background-color: white;
     color: black;
     margin-bottom: 10px;
+    .comment__box {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      i {
+        width: 10%;
+      }
+      span {
+        width: 10%;
+      }
+      .comment__text {
+        width: 80%;
+        overflow: hidden;
+        text-align: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        &:hover {
+          white-space: inherit;
+        }
+      }
+    }
   }
 }

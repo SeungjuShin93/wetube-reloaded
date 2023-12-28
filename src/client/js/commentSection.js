@@ -6,15 +6,19 @@ const addComment = (text, id) => {
   const newComment = document.createElement('li');
   newComment.className = 'video__comment';
   newComment.dataset.id = id;
+  const commentBox = document.createElement('div');
+  commentBox.className = 'comment__box';
   const icon = document.createElement('i');
   icon.className = 'fa-solid fa-comment';
   const span = document.createElement('span');
+  span.className = 'comment__text';
   span.innerText = ` ${text}`;
-  const span2 = document.createElement('span2');
+  const span2 = document.createElement('span');
   span2.innerText = ' ❌';
-  newComment.appendChild(icon);
-  newComment.appendChild(span);
-  newComment.appendChild(span2);
+  newComment.appendChild(commentBox);
+  commentBox.appendChild(icon);
+  commentBox.appendChild(span);
+  commentBox.appendChild(span2);
   videoComments.prepend(newComment);
 };
 
