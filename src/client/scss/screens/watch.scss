@@ -38,9 +38,7 @@
       i {
         width: 10%;
       }
-      span {
-        width: 10%;
-      }
+
       .comment__text {
         width: 80%;
         overflow: hidden;
@@ -49,6 +47,13 @@
         white-space: nowrap;
         &:hover {
           white-space: inherit;
+        }
+      }
+      .comment__delete {
+        width: 10%;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.1);
         }
       }
     }
