@@ -11,7 +11,6 @@ export const home = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id).populate('owner').populate('comments');
-  console.log(video);
   if (video === null) {
     return res.render('404', { pageTitle: 'Video not found' });
   }
@@ -60,7 +59,6 @@ export const postEdit = async (req, res) => {
 };
 
 export const getUpload = (req, res) => {
-  console.log(req.session);
   return res.render('upload', { pageTitle: 'Upload Video' });
 };
 export const postUpload = async (req, res) => {
