@@ -41,13 +41,15 @@
 
       .comment__text {
         width: 80%;
-        height: 20px;
+        // height: 20px;
         line-height: 1.2;
         overflow: hidden;
         text-align: left;
         text-overflow: ellipsis;
         white-space: nowrap;
         &:hover {
+          height: auto;
+          overflow: visible;
           white-space: inherit;
         }
       }
