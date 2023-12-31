@@ -158,7 +158,6 @@ muteBtn.addEventListener('click', handleMute);
 volumeRange.addEventListener('input', handleInputVolumeRange);
 volumeRange.addEventListener('change', handleChangeVolumeRange);
 video.addEventListener('loadedmetadata', handleLoadedMetadata);
-handleLoadedMetadata();
 video.addEventListener('timeupdate', handleTimeUpdate);
 video.addEventListener('click', handleVideoClickPlay);
 video.addEventListener('ended', handleEnded);
@@ -167,3 +166,6 @@ fullScreenBtn.addEventListener('click', handleFullScreen);
 videoContainer.addEventListener('mousemove', handleMouseMove);
 videoContainer.addEventListener('mouseleave', handleMouseLeave);
 window.addEventListener('keydown', handleKeyboard);
+if (!isNaN(video.duration)) {
+  handleLoadedMetadata();
+}
